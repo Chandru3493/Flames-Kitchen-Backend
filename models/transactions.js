@@ -1,7 +1,12 @@
 const {sequelize} = require('../db.js');
 const {DataTypes} = require('sequelize');
 
-const Transaction = sequelize.define('transactions',{
+const Transaction = sequelize.define('transactions',{id:{
+  type:DataTypes.INTEGER,
+  autoIncrement: true,
+  primaryKey:true,
+  allowNull:false
+},
     date: {
         type: DataTypes.STRING,
         allowNull: false
@@ -44,8 +49,8 @@ const Transaction = sequelize.define('transactions',{
       deletedAt: {
         type: DataTypes.DATE,
         allowNull: true
-      },
+      }}
     
-})
+)
 
 module.exports=Transaction

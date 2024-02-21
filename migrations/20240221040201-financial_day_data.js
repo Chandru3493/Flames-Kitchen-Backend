@@ -7,7 +7,7 @@ module.exports = {
      
      await queryInterface.createTable('financial_day_data', {date: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,primaryKey: true
     },
     starting_balance: {
       type: DataTypes.INTEGER,

@@ -42,7 +42,8 @@ app.post('/addemployee',async(req,res)=>{
   if(val.length!=0){
     res.send("already exists");
   }else{
-    const hashed = hash(req.body.password)
+    const hashed = await hash(req.body.password)
+    console.log(hashed);
     const hal = await Employee.create({email_id: req.body.emailid,name: req.body.empname,salary: req.body.empsalary,role: req.body.emprole,password: hashed,address: req.body.empaddress});
     const x = await Login.create({email_id: req.body.emailid,role: req.body.emprole,password: hashed})
     res.send('ok');
@@ -53,7 +54,8 @@ app.get('/day', async (req,res)=>{
   const resu = await  FinancialDay.findAll({where:{date: req.query.datestamp}});
   if(resu.length==0){
     res.send("No data for this date found")
-  }
+  }else{
+  
   var rows= resu[0].dataValues;
   const row1 =rows;
   
@@ -65,6 +67,7 @@ app.get('/day', async (req,res)=>{
   res2.forEach((item)=>{
     rows2.push(item.dataValues);
   })
+  console.log(rows2)
   const send = {...rows,transactions: rows2}
   if(resu.length==0 && rows2.length===0){
     res.send("No data for this date found");
@@ -72,7 +75,7 @@ app.get('/day', async (req,res)=>{
   console.log(send);
   res.send(send);}
 
-    
+  }
 })
 
 app.listen(port, () => {

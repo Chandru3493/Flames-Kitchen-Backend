@@ -4,7 +4,12 @@ const {DataTypes} =require('sequelize');
 module.exports = {
   async up (queryInterface, Sequelize) {
     
-      await queryInterface.createTable('transactions', {date: {
+      await queryInterface.createTable('transactions', {id:{
+        type:DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey:true,
+        allowNull:false
+      },date: {
         type: DataTypes.STRING,
         allowNull: false
       },

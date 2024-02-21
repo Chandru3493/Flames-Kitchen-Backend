@@ -7,7 +7,7 @@ module.exports = {
       queryInterface.createTable('employee_data', { email_id: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,primaryKey:true
       },
       name: {
         type: DataTypes.STRING,

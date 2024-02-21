@@ -5,7 +5,8 @@ const Login = sequelize.define('login',{
     email_id : {
         type: DataTypes.STRING,
         allowNull : false,
-        unique : true
+        unique : true,
+        primaryKey: true
         
 
     }, role :{

@@ -6,7 +6,8 @@ const {sequelize} = require('../db.js');
 const FinancialDay = sequelize.define('financial_day_data', {
   date: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    primaryKey: true
   },
   starting_balance: {
     type: DataTypes.INTEGER,
@@ -22,7 +23,7 @@ const FinancialDay = sequelize.define('financial_day_data', {
   deletedAt: {
     type: DataTypes.DATE,
     allowNull: true
-  },
-});
+  }}
+);
 
 module.exports = FinancialDay;

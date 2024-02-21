@@ -2,10 +2,12 @@ const {DataTypes} = require('sequelize');
 const {sequelize} = require('../db.js');
 
 const Employee =sequelize.define('employee_data', {
+    
     email_id: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      primaryKey:true
     },
     name: {
       type: DataTypes.STRING,
@@ -39,8 +41,8 @@ const Employee =sequelize.define('employee_data', {
     password: {
       type: DataTypes.STRING,
       allowNull: false
-    }
-  })
+    }}
+  )
 ;
 
 

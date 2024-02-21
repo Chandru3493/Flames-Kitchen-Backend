@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable('logins', {email_id : {
     type: DataTypes.STRING,
     allowNull : false,
-    unique : true
+    unique : true,primaryKey:true
     
 
 },role :{
