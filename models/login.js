@@ -1,17 +1,24 @@
 const {sequelize} = require('../db.js');
 const {DataTypes} = require('sequelize');
-
-const Login = sequelize.define('login',{
+const Role = require('./role.js');
+const Login = sequelize.define('logins',{
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: true,
+    autoIncrement: true,
+    primaryKey:true
+  },
     email_id : {
         type: DataTypes.STRING,
         allowNull : false,
         unique : true,
-        primaryKey: true
+        
         
 
-    }, role :{
-        type: DataTypes.STRING,
-        allowNull: false   
+    }, roleId :{
+        type: DataTypes.INTEGER,
+        allowNull: false ,
     },
     password : {
         type : DataTypes.STRING,
@@ -36,6 +43,6 @@ const Login = sequelize.define('login',{
       },
 })
 ;
-
+Login.belongsTo(Role, { foreignKey: 'roleId' });
 
 module.exports= Login

@@ -1,29 +1,38 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../db.js');
+const Role = require('./role.js')
+const Salary = require('./salary.js'); 
+
 
 const Employee =sequelize.define('employee_data', {
+  id: {
+  type: DataTypes.INTEGER,
+  allowNull: false,
+  unique: true,
+  autoIncrement: true,
+  primaryKey:true
+},
     
     email_id: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      primaryKey:true
+      
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    salary: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    
     address: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      
+      
     },
   
     createdAt: {
@@ -43,7 +52,11 @@ const Employee =sequelize.define('employee_data', {
       allowNull: false
     }}
   )
+  Employee.belongsTo(Role, { foreignKey: 'roleId' });
+  Employee.hasOne(Salary, { foreignKey: 'empid' });
 ;
+
+
 
 
 module.exports = Employee;

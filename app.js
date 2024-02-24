@@ -7,6 +7,8 @@ const Employee = require('./models/employee_data.js');
 const Login = require('./models/login.js');
 const FinancialDay =require('./models/financial_day_data.js');
 const Transaction = require('./models/transactions.js');
+const Role =  require('./models/role.js')
+const Salary = require('./models/salary.js');
 // const {Employee,Login,FinancialDay,Transaction} = require('./models/index.js')
 const bcrypt = require('bcrypt');
 (async () => {
@@ -26,26 +28,37 @@ const hash= async(password)=>{
 app.get('/employee', async (req, res) => {
   console.log(req.query.name)
   
-  const vals = await Employee.findAll({where: {name : req.query.name}})
+  const vals = await Employee.findAll({include:[Role,Salary],where: {name : req.query.name}})
+ 
   var x = []
   vals.forEach((item)=>{
-    x.push(item.dataValues)
+    const v = item.dataValues.role.dataValues;
+    const c = item.dataValues.salary.dataValues;
+    
+    x.push({...item.dataValues,role : v.rolename,salary: c.emp_salary})
   })
-  console.log(x)
+  
   res.send(x);
 })
 
 app.post('/addemployee',async(req,res)=>{
   
   const val = await Employee.findAll({where: {email_id: req.body.emailid}});
-  console.log(val);
+
+  
   if(val.length!=0){
     res.send("already exists");
   }else{
+    
+    const roletext = await Role.findAll({attributes:["rolename","roleid"],where: {"rolename": req.body.emprole}})
+    console.log(roletext)
+     const act = roletext[0].dataValues.roleid
+     console.log(act)
     const hashed = await hash(req.body.password)
     console.log(hashed);
-    const hal = await Employee.create({email_id: req.body.emailid,name: req.body.empname,salary: req.body.empsalary,role: req.body.emprole,password: hashed,address: req.body.empaddress});
-    const x = await Login.create({email_id: req.body.emailid,role: req.body.emprole,password: hashed})
+    const hal = await Employee.create({email_id: req.body.emailid,name: req.body.empname,roleId: act,password: hashed,address: req.body.empaddress});
+    const x = await Login.create({email_id: req.body.emailid,roleId: act,password: hashed})
+    const q = await Salary.create({emp_salary: req.body.empsalary})
     res.send('ok');
   }
 })
@@ -81,3 +94,4 @@ app.get('/day', async (req,res)=>{
 app.listen(port, () => {
   console.log(`Running`);
 });
+
