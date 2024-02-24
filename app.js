@@ -1,15 +1,17 @@
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 4000;
+const { Employee} = require('./models')
 const {sequelize,pool} = require('./db.js');
-const Employee = require('./models/employee_data.js');
+const AnuragEmp= require('./models/employee_data.js');
 const Login = require('./models/login.js');
 const FinancialDay =require('./models/financial_day_data.js');
 const Transaction = require('./models/transactions.js');
 const Role =  require('./models/role.js')
 const Salary = require('./models/salary.js');
-// const {Employee,Login,FinancialDay,Transaction} = require('./models/index.js')
+
 const bcrypt = require('bcrypt');
 (async () => {
   await sequelize.sync({logging:false,force:false}); // Use `{ force: true }` with caution, as it drops existing tables
@@ -28,7 +30,7 @@ const hash= async(password)=>{
 app.get('/employee', async (req, res) => {
   console.log(req.query.name)
   
-  const vals = await Employee.findAll({include:[Role,Salary],where: {name : req.query.name}})
+  const vals = await AnuragEmp.findAll({include:[Role,Salary],where: {name : req.query.name}})
  
   var x = []
   vals.forEach((item)=>{
@@ -43,7 +45,7 @@ app.get('/employee', async (req, res) => {
 
 app.post('/addemployee',async(req,res)=>{
   
-  const val = await Employee.findAll({where: {email_id: req.body.emailid}});
+  const val = await AnuragEmp.findAll({where: {email_id: req.body.emailid}});
 
   
   if(val.length!=0){
@@ -56,12 +58,69 @@ app.post('/addemployee',async(req,res)=>{
      console.log(act)
     const hashed = await hash(req.body.password)
     console.log(hashed);
-    const hal = await Employee.create({email_id: req.body.emailid,name: req.body.empname,roleId: act,password: hashed,address: req.body.empaddress});
+    const hal = await AnuragEmp.create({email_id: req.body.emailid,name: req.body.empname,roleId: act,password: hashed,address: req.body.empaddress});
     const x = await Login.create({email_id: req.body.emailid,roleId: act,password: hashed})
     const q = await Salary.create({emp_salary: req.body.empsalary})
     res.send('ok');
   }
 })
+
+app.post("/datas", async (req, res) => {
+    const {id,username,email,role,salary} = req.body;
+    try {
+      const data = await Employee.create({id,username,email,role,salary})
+      res.json(data.rows);
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+app.get("/datas", async (req, res) => {
+    try {
+      const data = await Employee.findAll()
+      res.json(data.rows);
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+app.get("/datas/:username", async (req, res) => {
+    const username=req.params.username
+    try {
+      const data = await Employee.findAll({
+        where:{username:username,},
+      })
+      res.json(data.rows);
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+  app.get("/data/:role", async (req, res) => {
+    const role=req.params.role
+    try {
+      const data = await Employee.findAll({
+        where:{role:role,},
+      })
+    res.json(data.rows);
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+app.put("/datas/:id", async (req,res) => {
+  const { id } = req.params;
+  const { description } = req.body;
+    try {
+      const data = await Employee.update(
+        {salary: description,},
+        {where: {id: id},}
+      );
+    res.json(data.rows);
+    }catch (err) {
+        console.error(err.message);
+      }});
+
 
 app.get('/day', async (req,res)=>{
   const resu = await  FinancialDay.findAll({where:{date: req.query.datestamp}});
@@ -93,5 +152,13 @@ app.get('/day', async (req,res)=>{
 
 app.listen(port, () => {
   console.log(`Running`);
+
+
+
+
+
+
+
+
 });
 
