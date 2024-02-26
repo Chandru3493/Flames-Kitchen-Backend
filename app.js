@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 4000;
-const { Employee} = require('./models')
+//const { Employee} = require('./models')
 const {sequelize,pool} = require('./db.js');
 const AnuragEmp= require('./models/employee_data.js');
 const Login = require('./models/login.js');
@@ -77,7 +77,7 @@ app.post("/datas", async (req, res) => {
 
 app.get("/datas", async (req, res) => {
     try {
-      const data = await Employee.findAll()
+      const data = await AnuragEmp.findAll()
       res.json(data.rows);
     } catch (err) {
       console.error(err.message);
@@ -87,10 +87,17 @@ app.get("/datas", async (req, res) => {
 app.get("/datas/:username", async (req, res) => {
     const username=req.params.username
     try {
-      const data = await Employee.findAll({
-        where:{username:username,},
+      const data = await AnuragEmp.findAll({include:[Role,Salary],
+        where:{name:username,},
       })
-      res.json(data.rows);
+      const d = []
+      data.forEach((item)=>{
+        const v = item.dataValues.role.dataValues;
+        const c = item.dataValues.salary.dataValues;
+            d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
+      })
+    
+      res.json(d);
     } catch (err) {
       console.error(err.message);
     }
@@ -98,11 +105,20 @@ app.get("/datas/:username", async (req, res) => {
 
   app.get("/data/:role", async (req, res) => {
     const role=req.params.role
+    const roleid = await Role.findAll({where: {rolename: role}});
+    const x =roleid[0].dataValues.roleid;
     try {
-      const data = await Employee.findAll({
-        where:{role:role,},
+      const data = await AnuragEmp.findAll({ include:[Role,Salary],
+        where:{roleId:x},
       })
-    res.json(data.rows);
+      var d = []
+      data.forEach((item)=>{
+        const v = item.dataValues.role.dataValues;
+    const c = item.dataValues.salary.dataValues;
+        d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
+      })
+      console.log(d)
+    res.json(d);
     } catch (err) {
       console.error(err.message);
     }
@@ -112,11 +128,15 @@ app.put("/datas/:id", async (req,res) => {
   const { id } = req.params;
   const { description } = req.body;
     try {
-      const data = await Employee.update(
-        {salary: description,},
-        {where: {id: id},}
+      const data = await Salary.update(
+        {emp_salary: Number(description)},
+        {where: {empid: id},}
       );
-    res.json(data.rows);
+      const x =[];
+      data.forEach((item)=>{
+        x.push(item.dataValues);
+      })
+    res.json(data);
     }catch (err) {
         console.error(err.message);
       }});
