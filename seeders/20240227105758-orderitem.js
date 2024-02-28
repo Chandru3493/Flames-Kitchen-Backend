@@ -7,7 +7,7 @@ module.exports = {
      await queryInterface.bulkInsert('OrderItem', [{
       order_id: 1,
     
-      ,
+      
        cook_id: null,
        status:'todo',
       menu_item_id: 1,

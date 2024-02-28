@@ -2,7 +2,7 @@ const {DataTypes} = require('sequelize');
 const {sequelize} = require('../db.js');
 const Role = require('./role.js')
 const Salary = require('./salary.js'); 
-const OrderItem = require('./orderitem.js);
+const OrderItem = require('./orderitem.js')
 
 
 const Employee =sequelize.define('employee_data', {
