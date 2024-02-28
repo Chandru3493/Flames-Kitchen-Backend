@@ -19,10 +19,7 @@ const Order = sequelize.define('Order', {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    cook_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
+    
     order_time: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -39,7 +36,7 @@ const Order = sequelize.define('Order', {
 
   Order.belongsTo(Table,{foreignKey: 'table_id'})
   Order.hasOne(Employee,{foreignKey: 'waiter_id'})
-  Order.hasOne(Employee,{foreignKey: 'cook_id'})
+  
   Order.hasMany(OrderItem,{foreignKey: 'order_id'})
 
   module.exports = Order
