@@ -25,6 +25,8 @@ module.exports = {
         key: 'id'
       }
     },
+     cook_id: { type: DataTypes.INTEGER, allowNull: true,references: { model: 'employee_data', key: 'id' }}
+     ,status: { type: DataTypes.STRING, allowNull: false, },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
