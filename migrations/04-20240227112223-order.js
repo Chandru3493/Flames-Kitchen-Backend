@@ -24,16 +24,12 @@ module.exports = {
           model: 'employee_data',
           key: 'id'
       }},
-      cook_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,references: {
-          model: 'employee_data',
-          key: 'id'
-      }},
+     
       order_time: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
+        
       status: {
         type: DataTypes.STRING,
         allowNull: false,
