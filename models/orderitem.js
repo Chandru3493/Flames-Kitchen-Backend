@@ -2,6 +2,7 @@ const {DataTypes}= require('sequelize');
 const {sequelize}= require('../db.js');
 const MenuItem = require('./menu.js');
 const Order = require('./order.js');
+const Employee = require('./employee_data.js');
 
 const OrderItem = sequelize.define('OrderItem', {
     id: {
@@ -18,10 +19,19 @@ const OrderItem = sequelize.define('OrderItem', {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    cook_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
+    ,
     
     price: {
       type: DataTypes.DECIMAL(10,2),
@@ -29,6 +39,7 @@ const OrderItem = sequelize.define('OrderItem', {
     },
   });
 
+  OrderItem.belongsTo(Employee,{foreignKey: 'cook_id'});
   OrderItem.belongsTo(Order,{foreignKey: 'order_id'})
   OrderItem.belongsTo(MenuItem, {foreignKey : 'menu_item_id'})
 
