@@ -8,7 +8,7 @@ module.exports = {
        
        table_id:1,
        waiter_id:2,
-       cook_id: null,
+
        status: 'listed',
        total_amount: 1000
 
