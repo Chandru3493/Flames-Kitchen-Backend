@@ -2,6 +2,7 @@ const {DataTypes} = require('sequelize');
 const {sequelize} = require('../db.js');
 const Role = require('./role.js')
 const Salary = require('./salary.js'); 
+const OrderItem = require('./orderitem.js);
 
 
 const Employee =sequelize.define('employee_data', {
@@ -54,6 +55,7 @@ const Employee =sequelize.define('employee_data', {
   )
   Employee.belongsTo(Role, { foreignKey: 'roleId' });
   Employee.hasOne(Salary, { foreignKey: 'empid' });
+  Employee.hasMany(OrderItem, {foreignKey: 'cook_id'});
 ;
 
 
