@@ -4,7 +4,7 @@ const {DataTypes} = require('sequelize')
 module.exports = {
   async up (queryInterface, Sequelize) {
    
-      await queryInterface.createTable('MenuItem', {
+      await queryInterface.createTable('MenuItems', {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -30,6 +30,17 @@ module.exports = {
           type: DataTypes.BOOLEAN,
           allowNull: false,
           defaultValue: true,
+        },createdAt: {
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW
+        },
+        updatedAt: {
+          type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW
+        },
+        deletedAt: {
+          type: DataTypes.DATE,
+          allowNull: true
         },
       });
      
@@ -38,7 +49,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     
     
-     await queryInterface.dropTable('MenuItem');
+     await queryInterface.dropTable('MenuItems');
      
   }
 };

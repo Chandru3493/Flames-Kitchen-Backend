@@ -37,10 +37,22 @@ const OrderItem = sequelize.define('OrderItem', {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
   });
 
   OrderItem.belongsTo(Employee,{foreignKey: 'cook_id'});
   OrderItem.belongsTo(Order,{foreignKey: 'order_id'})
-  OrderItem.belongsTo(MenuItem, {foreignKey : 'menu_item_id'})
+ OrderItem.belongsTo(MenuItem, {foreignKey : 'menu_item_id'})
 
   module.exports = OrderItem

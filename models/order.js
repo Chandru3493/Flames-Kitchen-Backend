@@ -3,7 +3,7 @@ const {DataTypes} = require('sequelize');
 
 const Table = require('./table.js')
 const Employee = require('./employee_data.js');
-const OrderItem = require('./orderitem.js');
+//const OrderItem = require('./orderitem.js');
 
 const Order = sequelize.define('Order', {
     id: {
@@ -32,11 +32,23 @@ const Order = sequelize.define('Order', {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
   });
 
-  Order.belongsTo(Table,{foreignKey: 'table_id'})
-  Order.hasOne(Employee,{foreignKey: 'waiter_id'})
+  Order.belongsTo(Table,{foreignKey:'table_id'})
+  //Order.belongsTo(Employee,{foreignKey: 'waiter_id'})
   
-  Order.hasMany(OrderItem,{foreignKey: 'order_id'})
+  //Order.hasMany(OrderItem,{foreignKey: 'order_id'})
 
   module.exports = Order

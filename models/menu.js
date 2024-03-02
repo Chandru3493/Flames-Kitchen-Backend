@@ -28,9 +28,20 @@ const MenuItem = sequelize.define('MenuItem', {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+    },createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
     },
   });
 
-  MenuItem.hasMany(OrderItem,{foreignKey: 'menu_item_id'})
+  //MenuItem.hasOne(OrderItem,{foreignKey: 'menu_item_id'})
 
   module.exports = MenuItem
