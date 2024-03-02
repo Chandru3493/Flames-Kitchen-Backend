@@ -7,7 +7,7 @@ const port = 4000;
 const {sequelize,pool} = require('./db.js');
 const {Op}= require('sequelize');
 const AnuragEmp= require('./models/employee_data.js');
-const Login = require('./models/login.js');
+
 const FinancialDay =require('./models/financial_day_data.js');
 const Transaction = require('./models/transactions.js');
 const Role =  require('./models/role.js')
@@ -15,6 +15,8 @@ const Salary = require('./models/salary.js');
 
 const bcrypt = require('bcrypt');
 const Employee = require('./models/employee_data.js');
+const OrderItem = require('./models/orderitem.js');
+const Order = require('./models/order.js');
 (async () => {
   await sequelize.sync({logging:false,force:false}); // Use `{ force: true }` with caution, as it drops existing tables
   console.log('Tables synchronized successfully');
@@ -48,7 +50,6 @@ app.get('/employee', async (req, res) => {
 app.post('/addemployee',async(req,res)=>{
   
   const val = await AnuragEmp.findAll({where: {email_id: req.body.emailid}});
-
   
   if(val.length!=0){
     res.send("already exists");
@@ -61,7 +62,7 @@ app.post('/addemployee',async(req,res)=>{
     const hashed = await hash(req.body.password)
     console.log(hashed);
     const hal = await AnuragEmp.create({email_id: req.body.emailid,name: req.body.empname,roleId: act,password: hashed,address: req.body.empaddress});
-    const x = await Login.create({email_id: req.body.emailid,roleId: act,password: hashed})
+   
     const q = await Salary.create({emp_salary: req.body.empsalary})
     res.send('ok');
   }

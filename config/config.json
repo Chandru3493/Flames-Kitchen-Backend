@@ -2,7 +2,7 @@
 
   "development":{
   "username": "postgres",
-    "password": "Sanjay@2003",
+    "password": "iamanurag12345",
     "database": "flameskitchen",
     "host": "localhost",
     "dialect": "postgres",
@@ -14,7 +14,7 @@
   ,
   "test": {
     "username": "postgres",
-    "password": "Sanjay@2003",
+    "password": "iamanurag12345",
     "database": "flameskitchen",
     "port": 5432,
     "host": "localhost",
@@ -27,7 +27,7 @@
   ,
   "production": {
     "username": "postgres",
-    "password": "Sanjay@2003",
+    "password": "iamanurag12345",
     "database": "flameskitchen",
     "host": "localhost",
     "port": 5432,
