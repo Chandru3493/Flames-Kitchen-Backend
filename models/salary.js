@@ -9,6 +9,7 @@ const Salary = sequelize.define('salaries',{
      allowNull:false,
      unique:true,
      autoIncrement:true,
+     
     },
     emp_salary: {
         type:DataTypes.INTEGER,

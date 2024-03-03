@@ -15,6 +15,20 @@ module.exports = {
         address: 'kolkata',
         password:await  hashu('anurag')
     },{
+      name: 'new',
+     
+      email_id: 'anurag2@gmail.com',
+      roleId: 2,
+      address: 'kolkata',
+      password:await  hashu('anurag')
+  },{
+    name: 'new2',
+   
+    email_id: 'anurag3@gmail.com',
+    roleId: 2,
+    address: 'kolkata',
+    password:await  hashu('anurag')
+},{
       name: 'Anurag Bhattacharjee',
       
       email_id: 'anurag1@gmail.com',

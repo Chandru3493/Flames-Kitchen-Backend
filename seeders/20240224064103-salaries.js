@@ -15,6 +15,10 @@ module.exports = {
       },{
         emp_salary: 45
       },{
+        emp_salary: 45
+      },{
+        emp_salary: 45
+      },{
         emp_salary: 50
       }], {});
     
