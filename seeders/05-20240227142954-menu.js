@@ -4,7 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     
-     await queryInterface.bulkInsert('MenuItems', [{
+     await queryInterface.bulkInsert('menuitems', [{
         name: 'biriyani',
         description: 'A',
         price: 100,

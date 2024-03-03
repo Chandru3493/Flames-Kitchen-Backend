@@ -18,9 +18,24 @@ const FinancialDay =require('./models/financial_day_data.js');
 const Transaction = require('./models/transactions.js');
 const Role =  require('./models/role.js')
 const Salary = require('./models/salary.js');
+const MenuItem = require('./models/menu.js');
+const OrderItem = require('./models/orderitem.js');
+const Order = require('./models/order.js');
+const Table = require('./models/table.js');
 
 
-const Employee = require('./models/employee_data.js');
+AnuragEmp.belongsTo(Role,{targetKey:'roleid',foreignKey: 'roleId'});
+AnuragEmp.hasOne(Salary,{sourceKey:'id',foreignKey: 'empid'});
+
+Order.hasOne(AnuragEmp,{sourceKey: 'waiter_id',foreignKey:'id'})
+Order.hasMany(OrderItem,{sourceKey:'id',foreignKey: 'order_id'})
+Order.belongsTo(Table,{foreignKey: 'table_id',targetKey:'id'});
+MenuItem.hasOne(OrderItem,{sourceKey: 'id',foreignKey:'menu_item_id'});
+OrderItem.hasOne(AnuragEmp,{sourceKey: 'cook_id',foreignKey:'id'});
+
+
+
+
 (async () => {
   await sequelize.sync({ logging: false, force: false });
   console.log('Tables synchronized successfully');
@@ -34,7 +49,13 @@ app.get('/employee', async (req, res) => {
   console.log(req.query.name)
   
   const vals = await AnuragEmp.findAll({include:[Role,Salary],where: {name : req.query.name}})
- 
+  const menuItems = await OrderItem.findAll({
+    include: [
+      AnuragEmp // Include the Menu model // Specify the attributes you want to fetch, e.g., name
+    ],
+  });
+ menuItems.forEach((item)=>{console.log(item.dataValues);});
+  
   var x = []
   vals.forEach((item)=>{
     const v = item.dataValues.role.dataValues;
@@ -67,15 +88,15 @@ app.post('/addemployee',async(req,res)=>{
   }
 })
 
-app.post("/datas", async (req, res) => {
-    const {id,username,email,role,salary} = req.body;
-    try {
-      const data = await Employee.create({id,username,email,role,salary})
-      res.json(data.rows);
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+// app.post("/datas", async (req, res) => {
+//     const {id,username,email,role,salary} = req.body;
+//     try {
+//       const data = await Employee.create({id,username,email,role,salary})
+//       res.json(data.rows);
+//     } catch (err) {
+//       console.error(err.message);
+//     }
+//   });
 
 app.get("/datas", async (req, res) => {
     try {
