@@ -2,7 +2,7 @@ const {DataTypes}= require('sequelize');
 const {sequelize}= require('../db.js');
 const Order = require('./order.js');
 
-const Table = sequelize.define("Table", {
+const Table = sequelize.define("tables", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -30,6 +30,6 @@ const Table = sequelize.define("Table", {
     },
   });
 
-  //Table.hasOne(Order,{foreignKey: 'table_id'})
+  
 
   module.exports = Table;

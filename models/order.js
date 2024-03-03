@@ -1,11 +1,9 @@
 const {sequelize} = require('../db.js');
 const {DataTypes} = require('sequelize');
 
-const Table = require('./table.js')
-const Employee = require('./employee_data.js');
-//const OrderItem = require('./orderitem.js');
 
-const Order = sequelize.define('Order', {
+
+const Order = sequelize.define('orders', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -18,6 +16,7 @@ const Order = sequelize.define('Order', {
     waiter_id: {
       type: DataTypes.INTEGER,
       allowNull: false
+      
     },
     
     order_time: {
@@ -46,9 +45,6 @@ const Order = sequelize.define('Order', {
     },
   });
 
-  Order.belongsTo(Table,{foreignKey:'table_id'})
-  //Order.belongsTo(Employee,{foreignKey: 'waiter_id'})
-  
-  //Order.hasMany(OrderItem,{foreignKey: 'order_id'})
+ 
 
   module.exports = Order

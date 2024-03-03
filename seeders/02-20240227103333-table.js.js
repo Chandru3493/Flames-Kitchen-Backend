@@ -4,7 +4,7 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     
-     await queryInterface.bulkInsert('Tables', [{
+     await queryInterface.bulkInsert('tables', [{
         
         capacity: 4,
         status: 'vacant'

@@ -1,8 +1,8 @@
 const {DataTypes} = require('sequelize');
 const { sequelize } = require('../db.js');
-const OrderItem = require('./orderitem.js');
 
-const MenuItem = sequelize.define('MenuItem', {
+
+const MenuItem = sequelize.define('menuitems', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -42,6 +42,6 @@ const MenuItem = sequelize.define('MenuItem', {
     },
   });
 
-  //MenuItem.hasOne(OrderItem,{foreignKey: 'menu_item_id'})
+ 
 
   module.exports = MenuItem
