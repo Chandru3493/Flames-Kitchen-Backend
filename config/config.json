@@ -1,0 +1,35 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Math@12365",
+    "database": "flameskitchen",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "createDatabaseIfNotExist": true
+    }
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Math@12365",
+    "database": "flameskitchen",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "createDatabaseIfNotExist": true
+    }
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Math@12365",
+    "database": "flameskitchen",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "createDatabaseIfNotExist": true
+    }
+  }
+}
