@@ -28,6 +28,7 @@ AnuragEmp.hasOne(Salary,{sourceKey:'id',foreignKey: 'empid'});
 Order.hasOne(AnuragEmp,{sourceKey: 'waiter_id',foreignKey:'id'})
 Order.hasMany(OrderItem,{sourceKey:'id',foreignKey: 'order_id'})
 Order.belongsTo(Table,{foreignKey: 'table_id',targetKey:'id'});
+ OrderItem.belongsTo(MenuItem,{ foreignKey: 'menu_item_id', targetKey:'id'});
 MenuItem.hasOne(OrderItem,{sourceKey: 'id',foreignKey:'menu_item_id'});
 OrderItem.hasOne(AnuragEmp,{sourceKey: 'cook_id',foreignKey:'id'});
 
