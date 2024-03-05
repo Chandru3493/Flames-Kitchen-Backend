@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt'); // Add bcrypt module
 
 const { sequelize } = require('./db.js');
 
-
+const hash=(pass)=>{
+	return bcrypt.hash(pass,10);
+}
 
 
 
