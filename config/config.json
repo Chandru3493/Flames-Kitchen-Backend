@@ -1,8 +1,11 @@
 {
 
+
   "development":{
   "username": "postgres",
     "password": "iamanurag12345",
+
+  
     "database": "flameskitchen",
     "host": "localhost",
     "dialect": "postgres",
