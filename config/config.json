@@ -1,0 +1,42 @@
+{
+
+  "development":{
+  "username": "postgres",
+    "password": "qwerty",
+    "database": "jmandb",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions":{
+      "createDatabaseIfNotExist":true  
+  }}
+    
+  ,
+  "test": {
+    "username": "postgres",
+    "password": "qwerty",
+    "database": "jmandb",
+    "port": 5432,
+    "host": "localhost",
+    "dialect": "postgres",
+    "dialectOptions":{
+      "createDatabaseIfNotExist":
+      true 
+  }}
+    
+  ,
+  "production": {
+    "username": "postgres",
+    "password": "qwerty",
+    "database": "jmandb",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions":{
+      "createDatabaseIfNotExist":
+      true   
+  }
+    
+
+  }
+}
