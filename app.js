@@ -93,117 +93,148 @@ app.post('/addemployee',async(req,res)=>{
   }
 })
 
-// app.post("/datas", async (req, res) => {
-//     const {id,username,email,role,salary} = req.body;
-//     try {
-//       const data = await Employee.create({id,username,email,role,salary})
-//       res.json(data.rows);
-//     } catch (err) {
-//       console.error(err.message);
-//     }
-//   });
+
 
 app.get("/datas", async (req, res) => {
-    try {
-      const data = await AnuragEmp.findAll({include:[Role,Salary],
+  try {
+    const data = await AnuragEmp.findAll({include:[Role,Salary],
+      where:{deletedAt: null},order: [['roleId', 'ASC'],['name','ASC']]
+    })
+    const d = []
+    data.forEach((item)=>{
+      const v = item.dataValues.role.dataValues;
+      const c = item.dataValues.salary.dataValues;
+          d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
+    })
   
-      })
-      const d = []
-      data.forEach((item)=>{
-        const v = item.dataValues.role.dataValues;
-        const c = item.dataValues.salary.dataValues;
-            d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
-      })
-    
-      res.json(d);
+    res.json(d);
+
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.get("/prevdatas", async (req, res) => {
+  try {
+    const data = await AnuragEmp.findAll({include:[Role,Salary],
+      where:{deletedAt: {[Op.not]:null}},
+    })
+    const d = []
+    data.forEach((item)=>{
+      const v = item.dataValues.role.dataValues;
+      const c = item.dataValues.salary.dataValues;
+          d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
+    })
   
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+    res.json(d);
+
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
 app.get("/datas/:username", async (req, res) => {
-    const username=req.params.username
-    try {
-      const data = await AnuragEmp.findAll({include:[Role,Salary],
-        where:{[Op.or]: [
-          {name: username },
-          //{id: Number(username)},
-        ],},
-      })
-      const d = []
-      data.forEach((item)=>{
-        const v = item.dataValues.role.dataValues;
-        const c = item.dataValues.salary.dataValues;
-            d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
-      })
+  const username=req.params.username
+  try {
+    const data = await AnuragEmp.findAll({include:[Role,Salary],
+      where:{name: username,deletedAt: null },order: [['roleId', 'ASC'],['name','ASC']],
     
-      res.json(d);
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
-
-  app.get("/data/:role", async (req, res) => {
-    const role=req.params.role
-    const roleid = await Role.findAll({where: {rolename: role}});
-    const x =roleid[0].dataValues.roleid;
-    try {
-      const data = await AnuragEmp.findAll({ include:[Role,Salary],
-        where:{roleId:x},
-      })
-      var d = []
-      data.forEach((item)=>{
-        const v = item.dataValues.role.dataValues;
-    const c = item.dataValues.salary.dataValues;
-        d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
-      })
-      console.log(d)
+      
+    })
+    const d = []
+    data.forEach((item)=>{
+      const v = item.dataValues.role.dataValues;
+      const c = item.dataValues.salary.dataValues;
+          d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
+    })
+  
     res.json(d);
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.get("/data/:role", async (req, res) => {
+  const role=req.params.role
+  const roleid = await Role.findAll({where: {rolename: role}});
+  const x =roleid[0].dataValues.roleid;
+  try {
+    const data = await AnuragEmp.findAll({ include:[Role,Salary],
+      where:{roleId:x,deletedAt: null},order: [['name','ASC']]
+    })
+    var d = []
+    data.forEach((item)=>{
+      const v = item.dataValues.role.dataValues;
+  const c = item.dataValues.salary.dataValues;
+      d.push({...item.dataValues,salary: c.emp_salary,role : v.rolename});
+    })
+    console.log(d)
+  res.json(d);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.put("/restore/:id",async(req,res)=>{
+
+  const {id}=req.params;
+
+  const delsal=await Salary.update({deletedAt:null},{where:{empid:id,}});
+  const delemp=await AnuragEmp.update({deletedAt:null},{where:{id:id,}});
+  
+  res.send("done");
+})
+
+
+app.put("/delemp/:id",async(req,res)=>{
+
+const {id}=req.params;
+
+const delsal=await Salary.update({deletedAt:new Date()},{where:{empid:id,}});
+const delemp=await AnuragEmp.update({deletedAt:new Date()},{where:{id:id,}});
+
+res.send("done");
+})
 
 app.put("/datas/:id", async (req,res) => {
-  const { id } = req.params;
-  const { name,email,address,role,salary } = req.body;
-  
-  //
-  const exists = await AnuragEmp.findAll({where: {email_id:email,id:{[Op.ne]:id}}});
-  if (exists.length===0){
-    if(role==="admin"){
-      var ri=1;
-    }else if(role==="waiter"){
-      var ri=2;
-    }else{
-      var ri=3;
-    }
-  //
-    try {
-      const data = await Salary.update(
-        {emp_salary: Number(salary)},
-        {where: {empid: id},}
-      );
-      const data1 = await AnuragEmp.update(
-        {email_id:email,name:name,address:address,roleId:ri},
-        {where: {id: id},}
-      );
+const { id } = req.params;
+const { name,email,address,role,salary } = req.body;
 
-      const x =[];
-      data.forEach((item)=>{
-        x.push(item.dataValues);
-      })
-    res.json(exists);
-    }catch (err) {
-        console.error(err.message);
-      }
-    //
-    }else{
-      res.send(exists)
+//
+const exists = await AnuragEmp.findAll({where: {email_id:email,id:{[Op.ne]:id}}});
+if (exists.length===0){
+  if(role==="admin"){
+    var ri=1;
+  }else if(role==="waiter"){
+    var ri=2;
+  }else{
+    var ri=3;
+  }
+//
+  try {
+    const data = await Salary.update(
+      {emp_salary: Number(salary)},
+      {where: {empid: id},}
+    );
+    const data1 = await AnuragEmp.update(
+      {email_id:email,name:name,address:address,roleId:ri},
+      {where: {id: id},}
+    );
+
+    const x =[];
+    data.forEach((item)=>{
+      x.push(item.dataValues);
+    })
+  res.json(exists);
+  }catch (err) {
+      console.error(err.message);
     }
-    //
-      });
+  //
+  }else{
+    res.send(exists)
+  }
+  //
+    });
 
 app.get('/day', async (req,res)=>{
   const resu = await  FinancialDay.findAll({where:{date: req.query.datestamp}});
