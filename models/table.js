@@ -10,7 +10,7 @@ const Table = sequelize.define("tables", {
     },
     capacity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     status: {
       type: DataTypes.STRING,
