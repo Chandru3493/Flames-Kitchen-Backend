@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken'); // Add JWT module
 const bcrypt = require('bcrypt'); // Add bcrypt module
-
+// const {Server} = require('socket.io');
 const { sequelize } = require('./db.js');
 
 const hash=(pass)=>{
@@ -14,6 +14,14 @@ const hash=(pass)=>{
 
 const app = express();
 const port = 4000;
+
+const server = app.listen(port, () => {
+  console.log(`Running on port ${port}`);
+});
+app.use(express.json());
+app.use(cors());
+
+// const sock = new Server(server)
 
 
 const { Op } = require("sequelize");
@@ -45,8 +53,7 @@ OrderItem.hasOne(AnuragEmp, { sourceKey: "cook_id", foreignKey: "id" });
 
 })();
 
-app.use(express.json());
-app.use(cors());
+
 const router = express.Router();
 
 
@@ -311,8 +318,9 @@ app.post('/login', async (req, res) => {
 
 // Handle PUT request to update orderitem status
 app.put("/orderitems/:id", async (req, res) => {
-	const { id } = req.params;
-	const { status } = req.body;
+  const {id} = req.params;
+	const { status,cookid } = req.body;
+  
 	console.log("id: ", id, " status: ", status);
 	try {
 		// Find the OrderItem by ID
@@ -323,10 +331,18 @@ app.put("/orderitems/:id", async (req, res) => {
 		if (!orderItem) {
 			return res.status(404).json({ error: "OrderItem not found" });
 		}
-
+    
+    if(status==="todo"){
+      orderItem.cook_id=null;
+    }
+    else{
+      orderItem.cook_id =cookid;
+    }
 		// Update the orderitem status column
 		orderItem.status = status;
+   
 		await orderItem.save();
+    // sock.emit('update');
 
 		// Respond with success message
 		return res
@@ -366,9 +382,6 @@ app.delete("/orderItems/:id", async (req, res) => {
 app.get("/orderItems/:id", menuItemController.getMenuItemById);
 app.get("/orderItems", menuItemController.getMenuItems);
 
-app.listen(port, () => {
-  console.log(`Running on port ${port}`);
-});
 
 
 
