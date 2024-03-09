@@ -8,7 +8,7 @@ const { sequelize } = require('./db.js');
 
 
 const app = express();
-const port = 3002;
+const port = 4000;
 
 const {Op}= require('sequelize');
 const AnuragEmp= require('./models/employee_data.js');
