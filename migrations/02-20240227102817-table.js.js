@@ -13,7 +13,9 @@ module.exports = {
       },
       capacity: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+
+        allowNull: false,
+
       },
       status: {
         type: DataTypes.STRING,

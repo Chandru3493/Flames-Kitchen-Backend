@@ -1,4 +1,5 @@
 
+
 "use strict";
 
 /** @type {import('sequelize-cli').Migration} */
@@ -111,5 +112,6 @@ module.exports = {
 		 * await queryInterface.bulkDelete('People', null, {});
 		 */
 	},
+
 
 };
