@@ -1,6 +1,5 @@
-
 "use strict";
-
+//todo , todo
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
@@ -15,52 +14,52 @@ module.exports = {
 					menu_item_id: 1,
 					quantity: 1,
 
-					price: 100,
+					price: 70,
 				},
 				{
 					order_id: 1,
 					cook_id: null,
-					status: "inprogress",
+					status: "todo",
 					menu_item_id: 2,
 					quantity: 1,
 
 					price: 100,
 				},
 				{
-					order_id: 1,
+					order_id: 4,
 					cook_id: null,
-					status: "closed",
+					status: "todo",
 					menu_item_id: 3,
 					quantity: 1,
 
-					price: 100,
+					price: 150,
 				},
 				{
-					order_id: 1,
+					order_id: 3,
 					cook_id: null,
 					status: "todo",
 					menu_item_id: 4,
 					quantity: 1,
 
-					price: 100,
+					price: 120,
 				},
 				{
-					order_id: 1,
+					order_id: 3,
 					cook_id: null,
 					status: "todo",
 					menu_item_id: 5,
 					quantity: 1,
 
-					price: 100,
+					price: 60,
 				},
 				{
 					order_id: 1,
 					cook_id: null,
-					status: "closed",
+					status: "todo",
 					menu_item_id: 6,
 					quantity: 1,
 
-					price: 100,
+					price: 80,
 				},
 				{
 					order_id: 1,
@@ -69,34 +68,34 @@ module.exports = {
 					menu_item_id: 7,
 					quantity: 1,
 
-					price: 100,
+					price: 250,
 				},
 				{
-					order_id: 1,
+					order_id: 2,
 					cook_id: null,
-					status: "inprogress",
+					status: "todo",
 					menu_item_id: 8,
 					quantity: 1,
 
 					price: 100,
 				},
 				{
-					order_id: 1,
+					order_id: 2,
 					cook_id: null,
-					status: "inprogress",
+					status: "todo",
 					menu_item_id: 9,
 					quantity: 1,
 
-					price: 100,
+					price: 200,
 				},
 				{
-					order_id: 1,
+					order_id: 2,
 					cook_id: null,
 					status: "todo",
 					menu_item_id: 10,
 					quantity: 1,
 
-					price: 100,
+					price: 400,
 				},
 			],
 			{}
@@ -111,5 +110,4 @@ module.exports = {
 		 * await queryInterface.bulkDelete('People', null, {});
 		 */
 	},
-
 };

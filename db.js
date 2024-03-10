@@ -6,5 +6,5 @@ const environment = 'development'
 
 
 const sequelize = new Sequelize(config[environment]);
-module.exports = {sequelize}
 
+module.exports = {sequelize}

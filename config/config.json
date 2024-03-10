@@ -1,45 +1,35 @@
 {
-
-
-  "development":{
-  "username": "postgres",
-    "password": "iamanurag12345",
-
-  
+  "development": {
+    "username": "postgres",
+    "password": "Math@12365",
     "database": "flameskitchen",
     "host": "localhost",
     "dialect": "postgres",
     "port": 5432,
-    "dialectOptions":{
-      "createDatabaseIfNotExist":true  
-  }}
-    
-  ,
+    "dialectOptions": {
+      "createDatabaseIfNotExist": true
+    }
+  },
   "test": {
     "username": "postgres",
-    "password": "Sanjay@2003",
+    "password": "Math@12365",
     "database": "flameskitchen",
     "port": 5432,
     "host": "localhost",
     "dialect": "postgres",
-    "dialectOptions":{
-      "createDatabaseIfNotExist":
-      true 
-  }}
-    
-  ,
+    "dialectOptions": {
+      "createDatabaseIfNotExist": true
+    }
+  },
   "production": {
     "username": "postgres",
-    "password": "Sanjay@2003",
+    "password": "Math@12365",
     "database": "flameskitchen",
     "host": "localhost",
     "port": 5432,
     "dialect": "postgres",
-    "dialectOptions":{
-      "createDatabaseIfNotExist":
-      true   
-  }
-    
-
+    "dialectOptions": {
+      "createDatabaseIfNotExist": true
+    }
   }
 }
