@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     
       await queryInterface.bulkInsert('financial_day_data', [{
-        date: '1-5-2024',
+        date: '2024-05-01',
         starting_balance: 25000
         
       }], {});

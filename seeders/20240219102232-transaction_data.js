@@ -5,9 +5,9 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     
       await queryInterface.bulkInsert('transactions', [{
-        date:'1-5-2024',time:'0600',mode:'cash',name:'A',refid:'1',type:'food order',sum: 1000,items: ['kadai paneer','rice','chicken korma','naan']
+        date:'2024-05-01',time:'0600',mode:'cash',name:'A',refid:'1',type:'food order',sum: 1000,items: ['kadai paneer','rice','chicken korma','naan']
       },{
-        date: '1-5-2024',
+        date: '2024-05-01',
         time: '0700',
         mode: 'card',
         name: 'B',
@@ -16,7 +16,7 @@ module.exports = {
         sum: 850,
         items: ['biryani', 'naan', 'rasmalai']
         },{
-          date: '1-5-2024',
+          date: '2024-05-01',
           time: '1000',
           mode: 'online',
           name: 'D',
@@ -25,7 +25,7 @@ module.exports = {
           sum: 500,
           items: ['sushi', 'miso soup']
           },{
-            date: '1-5-2024',
+            date: '2024-05-01',
             time: '1400',
             mode: 'card',
             name: 'F',

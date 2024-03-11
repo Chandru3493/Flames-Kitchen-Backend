@@ -15,7 +15,7 @@ const port = 4000;
 
 // const sock = new Server(server)
 const menuItemController = require("./controllers/menuItemController");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const AnuragEmp = require("./models/employee_data.js");
 
 const FinancialDay = require("./models/financial_day_data.js");
@@ -553,7 +553,39 @@ app.get("/orderItems/count", async (req, res) => {
 				const currentDate = new Date();
 
 				// Format the date and time as per your requirements
+				const fintrans = await Transaction.findAll({order:
+				[["id","DESC"]],
+				limit:1
+			});
+			  const d =fintrans[0].dataValues.date;
+			   console.log(d);
+			   
 				const formattedDate = currentDate.toISOString().split("T")[0]; // Extract date in YYYY-MM-DD format
+				if(!formattedDate.match(d)){
+					const fulltrans = await Transaction.findAll({where:{
+						date : d
+					}})
+                    var bal = 0;
+					fulltrans.forEach((item)=>{
+
+						if(item.dataValues.type==="food order"){
+							bal+=item.dataValues.sum;
+						}else{
+							bal-=item.dataValues.sum;
+						}
+					}
+					
+
+					)
+
+					var old = await FinancialDay.findOne({where:{date:d}});
+					var oldstart = old.dataValues.starting_balance;
+
+					await FinancialDay.create({
+						date: formattedDate,
+						starting_balance : oldstart+bal
+					})
+				}
 				const formattedTime = currentDate.toLocaleTimeString();
 				const newTransaction = await Transaction.create(
 					{
