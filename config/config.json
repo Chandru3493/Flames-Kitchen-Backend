@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": "Sanjay@2003",
-    "database": "flameskitchen",
+    "password": "qwerty",
+    "database": "restaurantapp",
     "host": "localhost",
     "dialect": "postgres",
     "port": 5432,
@@ -12,8 +12,8 @@
   },
   "test": {
     "username": "postgres",
-    "password": "Sanjay@2003",
-    "database": "flameskitchen",
+    "password": "qwerty",
+    "database": "restaurantapp",
     "port": 5432,
     "host": "localhost",
     "dialect": "postgres",
@@ -23,8 +23,8 @@
   },
   "production": {
     "username": "postgres",
-    "password": "Sanjay@2003",
-    "database": "flameskitchen",
+    "password": "qwerty",
+    "database": "restaurantapp",
     "host": "localhost",
     "port": 5432,
     "dialect": "postgres",
