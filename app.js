@@ -767,32 +767,21 @@ app.put("/api/orders/:id", async (req, res) => {
 });
 
 //notification
-app.get("/api/orders/:order_id/status", async (req, res) => {
-	try {
-		const { order_id } = req.params;
-
-		const orderItems = await OrderItem.findAll({ where: { order_id } });
-		const allDone = orderItems.every((item) => item.status === "done");
-
-		if (allDone) {
-			// Retrieve table ID (assuming you have a relationship between Order and Table)
-			const order = await Order.findByPk(order_id, {
-				include: Table,
-			});
-			const table_id = order ? order.table.id : null;
-
-			const notificationMessage = `Order ID: ${order_id}, Table ID: ${table_id} - Food ready to serve`;
-			const currentTime = new Date().toLocaleString();
-
-			res.json({ message: notificationMessage, updatedAt: currentTime });
-		} else {
-			// Order is not yet complete
-			res.json({ orderComplete: false }); // Or any other response you prefer
+app.get("/api/orders/done", async (req, res) => {
+	
+		try {
+		  const doneOrders = await Order.findAll({
+			where: {
+			  status: 'done' 
+			}
+		  });
+	  
+		  res.status(200).json(doneOrders);
+		} catch (error) {
+		  console.error("Error fetching done orders:", error);
+		  res.status(500).json({ error: "Internal server error" });
 		}
-	} catch (error) {
-		console.error("Error fetching order items and checking status:", error);
-		res.status(500).json({ message: "Internal server error" });
-	}
+	
 });
 
 app.get("/api/orders/:orderId", async (req, res) => {
@@ -812,15 +801,18 @@ app.get("/api/orders/:orderId", async (req, res) => {
 
 app.get("/api/orders/table/:tableId", async (req, res) => {
 	try {
-		const tableId = req.params.tableId;
-		const latestOrder = await Order.findOne({
-			where: {
-				table_id: tableId,
-				status: { [Op.ne]: "Order Closed" },
-			},
-			include: OrderItem,
-			order: [["id", "DESC"]],
-		});
+        const tableId = req.params.tableId;
+        const latestOrder = await Order.findOne({
+            where: {
+                table_id: tableId,
+                status: { [Op.ne]: "Order Closed" }, 
+            },
+            include: {
+                model: OrderItem, 
+                include: MenuItem  // Include MenuItem data
+            },
+            order: [["id", "DESC"]],
+        });
 
 		if (latestOrder) {
 			res.json(latestOrder);
@@ -1020,34 +1012,7 @@ app.put("/api/orders/:id", async (req, res) => {
 	}
 });
 
-//notification
-app.get("/api/orders/:order_id/status", async (req, res) => {
-	try {
-		const { order_id } = req.params;
 
-		const orderItems = await OrderItem.findAll({ where: { order_id } });
-		const allDone = orderItems.every((item) => item.status === "done");
-
-		if (allDone) {
-			// Retrieve table ID (assuming you have a relationship between Order and Table)
-			const order = await Order.findByPk(order_id, {
-				include: Table,
-			});
-			const table_id = order ? order.table.id : null;
-
-			const notificationMessage = `Order ID: ${order_id}, Table ID: ${table_id} - Food ready to serve`;
-			const currentTime = new Date().toLocaleString();
-
-			res.json({ message: notificationMessage, updatedAt: currentTime });
-		} else {
-			// Order is not yet complete
-			res.json({ orderComplete: false }); // Or any other response you prefer
-		}
-	} catch (error) {
-		console.error("Error fetching order items and checking status:", error);
-		res.status(500).json({ message: "Internal server error" });
-	}
-});
 
 app.get("/api/orders/:orderId", async (req, res) => {
 	try {
@@ -1153,5 +1118,20 @@ app.put("/api/orders/:orderId/status", async (req, res) => {
 		res.status(500).json({ message: "Error updating order status" });
 	}
 });
+
+app.get('/api/orders/stats/:status', async (req, res) => {
+	const desiredStatus = req.params.status;
+  
+	try {
+	  const count = await Order.count({
+		where: { status: desiredStatus }
+	  });
+  
+	  res.json({ count });
+	} catch (error) {
+	  console.error('Error fetching order count:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
 
 module.exports = router;
