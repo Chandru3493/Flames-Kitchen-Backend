@@ -514,10 +514,10 @@ app.get("/orderItems/count", async (req, res) => {
 		if (order.status == "done") {
 			try {
 				// Update the status of OrderItems to "softdelete" for the same order_id
-				await OrderItem.update(
-					{ status: "softdelete" }, // New status value
-					{ where: { order_id } } // Condition to match the order_id
-				);
+				// await OrderItem.update(
+				// 	{ status: "softdelete" }, // New status value
+				// 	{ where: { order_id } } // Condition to match the order_id
+				// );
 
 				// Fetch orderItems with associated menuItems
 				const orderItemsWithMenuItems = await OrderItem.findAll({
@@ -553,38 +553,36 @@ app.get("/orderItems/count", async (req, res) => {
 				const currentDate = new Date();
 
 				// Format the date and time as per your requirements
-				const fintrans = await Transaction.findAll({order:
-				[["id","DESC"]],
-				limit:1
-			});
-			  const d =fintrans[0].dataValues.date;
-			   console.log(d);
-			   
+				const fintrans = await Transaction.findAll({
+					order: [["id", "DESC"]],
+					limit: 1,
+				});
+				const d = fintrans[0].dataValues.date;
+				console.log(d);
+
 				const formattedDate = currentDate.toISOString().split("T")[0]; // Extract date in YYYY-MM-DD format
-				if(!formattedDate.match(d)){
-					const fulltrans = await Transaction.findAll({where:{
-						date : d
-					}})
-                    var bal = 0;
-					fulltrans.forEach((item)=>{
-
-						if(item.dataValues.type==="food order"){
-							bal+=item.dataValues.sum;
-						}else{
-							bal-=item.dataValues.sum;
+				if (!formattedDate.match(d)) {
+					const fulltrans = await Transaction.findAll({
+						where: {
+							date: d,
+						},
+					});
+					var bal = 0;
+					fulltrans.forEach((item) => {
+						if (item.dataValues.type === "food order") {
+							bal += item.dataValues.sum;
+						} else {
+							bal -= item.dataValues.sum;
 						}
-					}
-					
+					});
 
-					)
-
-					var old = await FinancialDay.findOne({where:{date:d}});
+					var old = await FinancialDay.findOne({ where: { date: d } });
 					var oldstart = old.dataValues.starting_balance;
 
 					await FinancialDay.create({
 						date: formattedDate,
-						starting_balance : oldstart+bal
-					})
+						starting_balance: oldstart + bal,
+					});
 				}
 				const formattedTime = currentDate.toLocaleTimeString();
 				const newTransaction = await Transaction.create(
@@ -768,20 +766,18 @@ app.put("/api/orders/:id", async (req, res) => {
 
 //notification
 app.get("/api/orders/done", async (req, res) => {
-	
-		try {
-		  const doneOrders = await Order.findAll({
+	try {
+		const doneOrders = await Order.findAll({
 			where: {
-			  status: 'done' 
-			}
-		  });
-	  
-		  res.status(200).json(doneOrders);
-		} catch (error) {
-		  console.error("Error fetching done orders:", error);
-		  res.status(500).json({ error: "Internal server error" });
-		}
-	
+				status: "done",
+			},
+		});
+
+		res.status(200).json(doneOrders);
+	} catch (error) {
+		console.error("Error fetching done orders:", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
 });
 
 app.get("/api/orders/:orderId", async (req, res) => {
@@ -801,18 +797,18 @@ app.get("/api/orders/:orderId", async (req, res) => {
 
 app.get("/api/orders/table/:tableId", async (req, res) => {
 	try {
-        const tableId = req.params.tableId;
-        const latestOrder = await Order.findOne({
-            where: {
-                table_id: tableId,
-                status: { [Op.ne]: "Order Closed" }, 
-            },
-            include: {
-                model: OrderItem, 
-                include: MenuItem  // Include MenuItem data
-            },
-            order: [["id", "DESC"]],
-        });
+		const tableId = req.params.tableId;
+		const latestOrder = await Order.findOne({
+			where: {
+				table_id: tableId,
+				status: { [Op.ne]: "Order Closed" },
+			},
+			include: {
+				model: OrderItem,
+				include: MenuItem, // Include MenuItem data
+			},
+			order: [["id", "DESC"]],
+		});
 
 		if (latestOrder) {
 			res.json(latestOrder);
@@ -1012,8 +1008,6 @@ app.put("/api/orders/:id", async (req, res) => {
 	}
 });
 
-
-
 app.get("/api/orders/:orderId", async (req, res) => {
 	try {
 		const order = await Order.findByPk(req.params.orderId, {
@@ -1119,19 +1113,19 @@ app.put("/api/orders/:orderId/status", async (req, res) => {
 	}
 });
 
-app.get('/api/orders/stats/:status', async (req, res) => {
+app.get("/api/orders/stats/:status", async (req, res) => {
 	const desiredStatus = req.params.status;
-  
+
 	try {
-	  const count = await Order.count({
-		where: { status: desiredStatus }
-	  });
-  
-	  res.json({ count });
+		const count = await Order.count({
+			where: { status: desiredStatus },
+		});
+
+		res.json({ count });
 	} catch (error) {
-	  console.error('Error fetching order count:', error);
-	  res.status(500).json({ error: 'Internal server error' });
+		console.error("Error fetching order count:", error);
+		res.status(500).json({ error: "Internal server error" });
 	}
-  });
+});
 
 module.exports = router;
