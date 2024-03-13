@@ -12,7 +12,7 @@ exports.getMenuItems = async (req, res) => {
 		// 	where: { category: "main course" },
 		// });
 		const menuItems = await orderitem.findAll({
-			include: Menu,
+			include: [Menu,Order]
 		});
 
 		if (menuItems) {
