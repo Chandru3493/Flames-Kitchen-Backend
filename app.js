@@ -532,9 +532,14 @@ app.get("/orderItems/count", async (req, res) => {
 				);
 
 				// await order.update({ total_amount: 100 });
-				const totalPrice = await OrderItem.sum("price", {
+				const fe = await OrderItem.findAll( {
 					where: { order_id: order_id },
+					attributes:["quantity","price"]
 				});
+                 var totalPrice=0;
+				fe.forEach((item)=>{
+                     totalPrice+=(item.dataValues.quantity*item.dataValues.price);
+				})
 				// const totalPrice = await OrderItem.sum("price", {
 				// 	where: {
 				// 		order_id: order_id,
