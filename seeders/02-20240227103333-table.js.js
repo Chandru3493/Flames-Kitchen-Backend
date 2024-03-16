@@ -6,44 +6,44 @@ module.exports = {
     
      await queryInterface.bulkInsert('tables', [{
         
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
         
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
        
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
         
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
        
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
        
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
         
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
         
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
        
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       },{
         
-        capacity: 4,
-        status: 'vacant'
+        capacity: 0,
+        status: 'Available'
       }], {});
     
   },
